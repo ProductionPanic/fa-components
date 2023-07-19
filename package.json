@@ -1,6 +1,6 @@
 {
   "name": "@freek.attema/fa-components",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A collection of web components",
   "main": "index.js",
   "private": false,
