@@ -1,5 +1,7 @@
 # Fa components
+
 [![pre-release](https://github.com/ProductionPanic/fa-components/actions/workflows/main.yml/badge.svg)](https://github.com/ProductionPanic/fa-components/actions/workflows/main.yml)
+Check out the [npm package](https://www.npmjs.com/package/@freek.attema/fa-components) for `fa-components`.
 
 A collection of handy web components made by [Me](https://github.com/Freekiehsoes)
 
