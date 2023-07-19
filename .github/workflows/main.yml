@@ -26,7 +26,7 @@ jobs:
 
       - name: "Build -> prepare"
         run: |
-            rm -rf ./dist ./node_modules  
+            rm -rf ./dist ./node_modules ./package-lock.json ./pnpm-lock.yaml 
 
       - name: "Build -> npm"
         run: |
