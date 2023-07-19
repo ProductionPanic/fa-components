@@ -1,5 +1,6 @@
 # Fa components
 [![pre-release](https://github.com/ProductionPanic/fa-components/actions/workflows/main.yml/badge.svg)](https://github.com/ProductionPanic/fa-components/actions/workflows/main.yml)
+
 A collection of handy web components made by [Me](https://github.com/Freekiehsoes)
 
 ## disclaimer
