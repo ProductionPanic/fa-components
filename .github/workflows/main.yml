@@ -1,0 +1,47 @@
+---
+name: "pre-release"
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  pre-release:
+    name: "Pre Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "Setup node"
+        uses: actions/setup-node@v2
+        with:
+          node-version: '19.x'
+        
+      - name: "Install pnpm"
+        run: |
+          npm install -g pnpm
+
+      - name: "Build -> prepare"
+        run: |
+            rm -rf ./dist ./node_modules  
+
+      - name: "Build -> npm"
+        run: |
+            pnpm install
+            pnpm run build
+
+      - name: "Zip plugin"
+        run: |
+            zip -r fa-components.zip ./dist/*
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            fa-components.zip
