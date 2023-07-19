@@ -1,7 +1,7 @@
 {
-  "name": "slider",
+  "name": "@freek.attema/fa-components",
   "version": "1.0.0",
-  "description": "",
+  "description": "A collection of web components",
   "main": "index.js",
   "scripts": {
     "build": "node ./scripts/build.js",
