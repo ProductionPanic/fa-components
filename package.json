@@ -6,7 +6,15 @@
   "private": false,
   "scripts": {
     "build": "node ./scripts/build.js",
-    "dev": "node ./scripts/serve.js"
+    "dev": "node ./scripts/serve.js",
+    "publish_now": "pnpm i && pnpm build && pnpm publish --access public"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProductionPanic/fa-components.git"
   },
   "keywords": [],
   "author": "",
