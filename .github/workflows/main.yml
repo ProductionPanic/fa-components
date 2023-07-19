@@ -35,7 +35,8 @@ jobs:
 
       - name: "Zip plugin"
         run: |
-            zip -r fa-components.zip ./dist/*
+            cd ./dist
+            zip -r ./../fa-components.zip ./*
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
