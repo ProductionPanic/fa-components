@@ -1,39 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test</title>
-    <script src="typewriter.js"></script>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite + Lit + TS</title>
+  <link rel="stylesheet" href="./src/index.css" />
 </head>
 
 <body>
+  <fa-accordion>
+    <template slot="header">
+      My accordion_item
+    </template>
+    <template slot="content">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Quisquam, quos. Quisquam, quos. Quisquam,
+      quos.
+    </template>
+  </fa-accordion>
 
+  <br>
+
+  <fa-typewriter>
+    <h1>Lorem ipsum</h1>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Quisquam, quos. Quisquam, quos. Quisquam,
+    quos.
+
+    <h1>Lorem ipsum</h1>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+    </p>
+
+  </fa-typewriter>
+
+  <script type="module" src="./dist/fa-web-components.iife.js"></script>
 </body>
-<fa-typewriter>
-    <h1>test</h1>
-    This is a test of what I can do with this component. <br />
-    It's pretty cool, right? <br />
-    Because i think so.<h1>dasfasdfasdfasdfasdfasdf</h1>
-
-    <div class="test">
-        <h1>test <h2>yeet</h2>
-        </h1>
-        This is a test of what I can do with this component. <br />
-        It's pretty cool, right? <br />
-        Because i think so.<h1>dasfasdfasdfasdfasdfasdf</h1>
-    </div>
-    <h1>test <h2>yeet</h2>
-    </h1>
-    This is a test of what I can do with this component. <br />
-    It's pretty cool, right? <br />
-    Because i think so.<h1>dasfasdfasdfasdfasdfasdf</h1>
-    <h1>test <h2>yeet</h2>
-    </h1>
-    This is a test of what I can do with this component. <br />
-    It's pretty cool, right? <br />
-    Because i think so.<h1>dasfasdfasdfasdfasdfasdf</h1>
-</fa-typewriter>
 
 </html>

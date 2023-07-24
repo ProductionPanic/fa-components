@@ -1,14 +1,14 @@
 type NestedString = string | NestedString[];
 
 class FaTypeWriterElement extends HTMLElement {
-    private content_observer: MutationObserver;
+    private content_observer!: MutationObserver;
     private animating: boolean = false;
     private parts: NestedString = [];
     public delay: number = 200;
     public interval: number = 10;
     public reverseInterval: number = 0.5;
     public reverse_on_change: boolean = true;
-    private paper: HTMLElement;
+    private paper!: HTMLElement;
     private root: ShadowRoot;
 
     private wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -147,7 +147,7 @@ class FaTypeWriterElement extends HTMLElement {
         return ['delay', 'interval'];
     }
 
-    attributeChangedCallback(name, _, newValue) {
+    attributeChangedCallback(name: string, _: any, newValue: string) {
         switch (name) {
             case 'delay':
                 this.delay = parseInt(newValue);
