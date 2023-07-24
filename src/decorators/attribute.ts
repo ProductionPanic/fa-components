@@ -17,7 +17,7 @@ export function attrChange(attribute) {
     const merge_unique = (a: string[], b: string[]) => [...new Set([...a, ...b])];
     attribute = attribute.split(',').map(attr => attr.trim());
 
-    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    return function (target: any, _: string, descriptor: PropertyDescriptor) {
         const attributes = attribute.map(attr => attr.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase());
         target.constructor.observedAttributes = target.constructor.observedAttributes || [];
         target.constructor.observedAttributes = merge_unique(target.constructor.observedAttributes, attributes);

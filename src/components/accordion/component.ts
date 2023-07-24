@@ -21,12 +21,13 @@ export class FaAccordionElement extends FaElement {
 
     private render_header() {
         return this.html` 
-            <div on:click={()=>active = !active} class="header">
+            <div on:click={toggle} class="header">
             <slot name="header"></slot>
             </div>
         `;
     }
 
+    // @ts-ignore
     private toggle() {
         this.active = !this.active;
     }

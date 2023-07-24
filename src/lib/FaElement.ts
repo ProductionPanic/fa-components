@@ -13,24 +13,13 @@ export abstract class FaElement extends HTMLElement {
         this.root = this.attachShadow({ mode: 'open' });
         this.internal.on('render', () => {
             // get static styles
-            const styles = "<style>" + this.constructor.styles + "</style>";
+            const styles = "<style>" + (this.constructor as any).styles + "</style>";
             this.root.innerHTML = this.render() + styles;
             this.rendered();
         });
     }
 
     private rendered() {
-        const on_clicks = this.root.querySelectorAll('[on\\:click]');
-        on_clicks.forEach((el) => {
-            // const event = el.getAttribute('on:click');
-            // console.log(event);
-
-            // if (!event.startsWith('{') || !event.endsWith('}')) throw new Error(`Invalid event ${event}`);
-            // const expression = event.slice(1, -1);
-            // const fn = new Function('() => ' + expression).call(this);
-            // el.addEventListener('click', (e) => fn.call(this, e));
-
-        });
 
         const slots = this.root.querySelectorAll('slot');
         slots.forEach((slot) => {
@@ -75,22 +64,6 @@ export abstract class FaElement extends HTMLElement {
         // support for on:click syntax
         // <div on:click={()=>console.log('clicked')}></div>
         // <div on:click={click}></div>
-        console.log(strings);
-
-        const find = "on:click={";
-        // if found walk until closing bracket
-        const index = strings[0].indexOf(find);
-        if (index !== -1) {
-            const start = index + find.length;
-            const end = strings[0].indexOf('}', start);
-            const expression = strings[0].slice(start, end);
-            const fn = new Function('() => ' + expression).call(this);
-            result += strings[0].slice(0, index);
-            result += `on:click="${fn}"`;
-            result += strings[0].slice(end + 1);
-            strings = strings.slice(1);
-        }
-
 
 
         strings.forEach((string, i) => {
