@@ -1,26 +1,30 @@
 import { EventHandler } from "./EventHandler";
 import { v4 as uuidv4 } from 'uuid';
+import { FaTemplateParser } from "./FaTemplateParser";
 
 export abstract class FaElement extends HTMLElement {
     static styles = ``;
     protected root: ShadowRoot;
     protected internal: EventHandler = new EventHandler();
     private initialized = false;
-
     constructor() {
         super();
         this.constructor.prototype.internal = this.internal;
         this.root = this.attachShadow({ mode: 'open' });
         this.internal.on('render', () => {
             // get static styles
-            const styles = "<style>" + (this.constructor as any).styles + "</style>";
-            this.root.innerHTML = this.render() + styles;
-            this.rendered();
+            this.exec_render();
         });
     }
 
-    private rendered() {
+    private exec_render() {
+        const styles = "<style>" + (this.constructor as any).styles + "</style>";
+        const body = this.render() + styles;
+        this.root.innerHTML = body;
+        this.rendered();
+    }
 
+    private rendered() {
         const slots = this.root.querySelectorAll('slot');
         slots.forEach((slot) => {
             const name = slot.getAttribute('name');
@@ -29,7 +33,23 @@ export abstract class FaElement extends HTMLElement {
             const content = temp.content.cloneNode(true);
             slot.replaceWith(content);
         });
+
+        const elements = this.root.querySelectorAll('[fa\\:event]');
+        elements.forEach((element) => {
+            element.removeAttribute('fa:event');
+            const attributes = element.attributes;
+            const filtered = Array.from(attributes).filter((attr) => attr.name.startsWith('on:'));
+            filtered.forEach((attr) => {
+                const event = attr.name.replace('on:', '');
+                const id = element.getAttribute(attr.name) + '';
+                element.removeAttribute(attr.name);
+                element.addEventListener(event, (e) => {
+                    this.internal.emit(id, e);
+                });
+            });
+        });
     }
+
 
 
     protected wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -58,21 +78,10 @@ export abstract class FaElement extends HTMLElement {
         this.addEventListener(event, (e: any) => callback(...e.detail));
     }
 
-    protected html(strings: TemplateStringsArray, ...values: any[]): string {
-        let result = '';
-
-        // support for on:click syntax
-        // <div on:click={()=>console.log('clicked')}></div>
-        // <div on:click={click}></div>
-
-
-        strings.forEach((string, i) => {
-            result += string;
-            if (values[i]) result += values[i];
-        });
-
-
-        return result;
+    // @ts-ignore
+    protected html(strings: TemplateStringsArray, ...args: any[]): string {
+        const templateParser = new FaTemplateParser(this.uniqueId, this.internal);
+        return templateParser.parse(strings, args, this);
     }
 
     protected abstract render(): string;

@@ -12,6 +12,7 @@ import path from 'path';
 export default defineConfig({
     build: {
         sourcemap: true,
+        minify: false,
         lib: {
             entry: 'src/main.ts',
             name: 'FAWebComponents',

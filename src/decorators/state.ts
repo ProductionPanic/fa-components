@@ -1,19 +1,24 @@
 // state decorator
 // triggers a render when the value changes
 //
-export function state() {
-    return function (target: any, propertyKey: string) {
-        Object.defineProperty(target, propertyKey, {
-            get: function () {
-                return this[`_${propertyKey}`];
-            },
-            set: function (value) {
-                this[`_${propertyKey}`] = value;
-                console.log(target);
+export const val_state = function <T>(target, key) {
+    let value = target[key];
+    return {
+        get: () => value,
+        set: (v: T) => {
+            value = v;
+            target.internal.emit('render');
+        },
+        enumerable: true,
+        configurable: true
+    }
+}
 
-                target.internal.emit('render')
-            }
-        })
+export function state(): PropertyDecorator {
+    return (target, key): void => {
 
+        const state = val_state(target, key);
+        Reflect.deleteProperty(target, key);
+        Reflect.defineProperty(target, key, state);
     }
 }

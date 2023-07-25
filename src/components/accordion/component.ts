@@ -7,21 +7,23 @@ export class FaAccordionElement extends FaElement {
     static styles = `:host { display: block; } .hidden { display: none; }`;
 
     @state()
-    private active: boolean = false;
+    active: boolean = false;
+
+    @state()
+    amount: number = 1;
 
     protected render() {
         const html = this.html`
             ${this.render_header()}
             ${this.render_content()}    
         `;
-        console.log(html);
         return html;
 
     }
 
     private render_header() {
         return this.html` 
-            <div on:click={toggle} class="header">
+            <div on:click=${this.toggle} class="header">
             <slot name="header"></slot>
             </div>
         `;
@@ -32,14 +34,16 @@ export class FaAccordionElement extends FaElement {
         this.active = !this.active;
     }
 
-    private render_content() {
-        return this.html`
-            <div class="${this.active ? '' : 'hidden'}">
-                <slot name="content"></slot>
-            </div>
-        `;
+    private double() {
+        this.amount = this.amount * 2;
     }
 
-    onInit() {
+    private render_content() {
+        console.log(this.active)
+        return this.html`
+            <div on:click=${this.double} class="${this.active ? '' : 'hidden'}">
+                <slot name="content"></slot>
+            </div>
+        `.repeat(this.amount);
     }
 }
