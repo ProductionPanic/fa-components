@@ -10,9 +10,9 @@
 </head>
 
 <body>
-  <fa-switch></fa-switch>
+  <!-- <fa-switch></fa-switch> -->
 
-  <!-- <fa-counter></fa-counter> -->
+  <fa-counter></fa-counter>
 
   <!-- <fa-accordion>
     <template slot="header">
@@ -47,79 +47,30 @@
   </template>
   <div class="outlet"></div>
   <button id="changebtn">change</button>
+  <script src="./dist/fa-web-components.iife.js"></script>
   <script>
-    // create mutation observer
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        console.log(mutation);
-      });
-    });
-
-    observer.observe(document.querySelector(".outlet"), {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      characterData: true,
-    });
+    const get_template = () => document.querySelector("#yeet").content.cloneNode(true);   
 
     const outlet = document.querySelector(".outlet");
-    const changebtn = document.querySelector("#changebtn");
-    const template = document.querySelector("#yeet");
+    const change_btn = document.querySelector("#changebtn");
 
-    function update_children(old_children, new_children) {
-      old_children = Array.from(old_children);
-      new_children = Array.from(new_children);
-      // outputs: an array of children where the old child is kept if it exists in the new children
-      // and the new child is added if it doesn't exist in the old children
-      const output = [];
+    outlet.replaceChildren(get_template());
+    let copy = outlet.cloneNode(true);
 
-      // loop through the new children
-      for (let i = 0; i < new_children.length; i++) {
-        const new_child = new_children[i];
-        let found = false;
+    const updater = new window.domUpdater(outlet);
 
-        // loop through the old children
-        for (let j = 0; j < old_children.length; j++) {
-          const old_child = old_children[j];
+    change_btn.addEventListener("click", () => {
+      const content = copy.cloneNode(true);
+      const _con = content.querySelector(".test").outerHTML;
+      content.innerHTML += _con.replace("this is my content", "this is my new content");
 
-          // if the new child is the same as the old child
-          if (new_child.isEqualNode(old_child)) {
-            // add the old child to the output
-            output.push(old_child);
-            // remove the old child from the old children
-            old_children.splice(j, 1);
-            // mark the new child as found
-            found = true;
-            // break out of the loop
-            break;
-          }
-        }
+      updater.updateDom(content);
 
-        // if the new child was not found
-        if (!found) {
-          // add the new child to the output
-          output.push(new_child);
-        }
-      }
 
-      // return the output
-      return output;
-    }
-    outlet.replaceChildren(template.content.cloneNode(true));
-    changebtn.addEventListener("click", () => {
-      const shadow = outlet.cloneNode(true);
-      const content = template.content.cloneNode(true);
-      content.querySelector(".test").textContent = "changed";
-      shadow.appendChild(content);
-
-      const new_children = update_children(outlet.childNodes, shadow.childNodes);
-      console.log(new_children);
-      outlet.replaceChildren(...new_children);
     });
   </script>
 
 
-  <script src="./dist/fa-web-components.iife.js"></script>
 </body>
 
 </html>

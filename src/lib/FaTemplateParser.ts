@@ -2,9 +2,17 @@ import { EventHandler } from "./EventHandler";
 
 export class FaTemplateParser {
     constructor(
-        private id_generator: () => string,
         private event_handler: EventHandler,
     ) { }
+
+    // generate a unique id for an element
+    private id_from_element(element:HTMLElement) {
+        const t = element.outerHTML.replace(element.innerHTML, "");
+        const encoder = new TextEncoder();
+        const data = encoder.encode(t);
+        const hash = crypto.subtle.digest('SHA-256', data);
+        return hash;
+    }
 
     public parse(strings: string[] | TemplateStringsArray, args: any[], parent): string {
         let html = "";
@@ -17,7 +25,7 @@ export class FaTemplateParser {
                     const id = this.id_generator();
                     this.event_handler.on(
                         id,
-                        arg.bind(parent)
+                        () => arg.call(parent),                      
                     );
                     html += `"${id}"`;
                     html += ' fa:event '
